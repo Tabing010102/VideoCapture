@@ -128,8 +128,8 @@ INT_PTR CALLBACK WndProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
            break;
 		case IDONESHOT:
             {
-                //g_CaptureVideo.GrabOneFrame(TRUE);
-				SetTimer(hDlg,ID_TIMER,150, TimerGetPicture);
+                g_CaptureVideo.GrabOneFrame(TRUE);
+				//SetTimer(hDlg,ID_TIMER,150, TimerGetPicture);
             }
 			break;
 		

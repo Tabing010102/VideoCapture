@@ -5,6 +5,8 @@
 #include "qedit.h"
 #include <strsafe.h>
 #include <assert.h>
+#include <string>
+#include <fstream>
 #pragma comment(lib,"Strmiids.lib")
 
 //define release maco
@@ -19,5 +21,6 @@
 
 void Msg(HWND hwnd,TCHAR *szFormat, ...);
 bool Bstr_Compare(BSTR bstrFilter,BSTR bstrDevice);
+std::string TCHAR2STRING(TCHAR * STR);
 
 #endif// __COMMON_H__

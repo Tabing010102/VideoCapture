@@ -57,12 +57,32 @@ HRESULT STDMETHODCALLTYPE SampleGrabberCallback::BufferCB(double Time, BYTE *pBu
 
 BOOL SampleGrabberCallback::SaveBitmap(BYTE * pBuffer, long lBufferSize )
 {
+	std::string g_fPath = ".";
+	bool g_saveBmp = false;
+	bool g_saveJpg = false;
+	bool g_savePng = false;
+	std::fstream fs;
+	fs.open("config", std::ios::in);
+	std::string tmp;
+	getline(fs, tmp);
+	g_fPath = tmp;
+	int t;
+	fs >> t; if (t) g_saveBmp = true;
+	fs >> t; if (t) g_saveJpg = true;
+	fs >> t; if (t) g_savePng = true;
+	fs.close();
 	SYSTEMTIME sysTime;
 	GetLocalTime(&sysTime);
 	StringCchCopy(m_chSwapStr,MAX_PATH,m_chTempPath);
-	StringCchPrintf(m_chDirName,MAX_PATH,TEXT("\\%04i%02i%02i%02i%02i%02i%03ione.bmp"),
+	m_fOriginPath = TCHAR2STRING(m_chTempPath);
+	StringCchPrintf(m_chDirName,MAX_PATH,TEXT("\\%04i%02i%02i%02i%02i%02i%03i.bmp"),
 					sysTime.wYear,sysTime.wMonth,sysTime.wDay,sysTime.wHour,
 					sysTime.wMinute,sysTime.wSecond,sysTime.wMilliseconds);
+	TCHAR m_chTemp[MAX_PATH];
+	StringCchPrintf(m_chTemp,MAX_PATH,TEXT("\\%04i%02i%02i%02i%02i%02i%03i"),
+					sysTime.wYear,sysTime.wMonth,sysTime.wDay,sysTime.wHour,
+					sysTime.wMinute,sysTime.wSecond,sysTime.wMilliseconds);
+	m_fNameBase = TCHAR2STRING(m_chTemp);
 	StringCchCat(m_chSwapStr,MAX_PATH,m_chDirName);
 	// %temp%/CaptureBmp/*
 	//MessageBox(NULL,chTempPath,TEXT("Message"),MB_OK);
@@ -124,6 +144,24 @@ BOOL SampleGrabberCallback::SaveBitmap(BYTE * pBuffer, long lBufferSize )
 
 	memcpy(szDstFileName + len - 3, "png", 3);
 	bRet = ifc.ToPng(szSrcFileName, szDstFileName);
+
+	if (g_saveBmp == true) {
+		std::string cmd = "COPY \"" + m_fOriginPath + m_fNameBase + ".bmp\" \""
+						+ g_fPath + m_fNameBase + ".bmp\"";
+		system(cmd.c_str());
+	}
+
+	if (g_saveJpg == true) {
+		std::string cmd = "COPY \"" + m_fOriginPath + m_fNameBase + ".jpg\" \""
+			+ g_fPath + m_fNameBase + ".jpg\"";
+		system(cmd.c_str());
+	}
+
+	if (g_savePng == true) {
+		std::string cmd = "COPY \"" + m_fOriginPath + m_fNameBase + ".png\" \""
+			+ g_fPath + m_fNameBase + ".png\"";
+		system(cmd.c_str());
+	}
 
 	return TRUE;
 }

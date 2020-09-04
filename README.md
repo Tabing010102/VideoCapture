@@ -5,6 +5,42 @@
 |[![Build status](https://ci.appveyor.com/api/projects/status/opebwjf0j8ssiq2j/branch/master?svg=true)](https://ci.appveyor.com/project/5455945/videocapture/branch/master)|
 
 
+一点说明
+---
+默认点一下截图一张
+
+粗暴实现配置文件以及输出到文件夹，请确保文件夹存在并可写
+
+配置文件fstream读，输出暴力copy，在%temp%\CaptureBmp\的文件不动
+
+vs2019 v142编译
+
+release已经在64位win7以及win10 2004测试
+
+cmake未测试
+
+
+配置文件
+---
+配置文件为程序目录下的config文件（没有扩展名）
+
+共4行
+
+第一行为输出目录（不带\）
+
+第二到四行每行分别有一个整数1或0
+
+分别表示是否输出bmp、jpg、png文件
+
+示例（输出到D:\Temp目录下，仅输出jpg文件）：
+```
+D:\Temp
+0
+1
+0
+```
+
+
 传统方式编译
 ---
 Windows Video Audio Capture, Save BMP file

@@ -22,6 +22,8 @@ public:
 	TCHAR m_chTempPath[MAX_PATH];
 	TCHAR m_chSwapStr[MAX_PATH];
 	TCHAR m_chDirName[MAX_PATH];
+	std::string m_fOriginPath;
+	std::string m_fNameBase;
 };
 
 #endif //__SAMPLEGRABBERCALLBACK_H__
